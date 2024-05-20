@@ -27,6 +27,7 @@ server.delete("/",(req,res)=>{
 })
 
 
+
 // server.get("/friend",(req,res)=>{
 //     console.log("ip address --->",rep.ip);
 //     console.log("base url --->",rep.i);
