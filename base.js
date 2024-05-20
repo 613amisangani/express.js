@@ -3,10 +3,34 @@
 // npm i express
 
 const express = require("express")
-const nodemon = require("nodemon")
 const server = express();
+const morgan = require('morgan');
 
-server.get("/",(req,res)=>{
+
+// server.use((req,res,next)=>{
+//     console.log(req.method, req.get('use-agent'));
+//      next();
+// })
+
+let auth = (req, res, next)=>{
+    console.log(req.query);
+    //  console.log(req.body)
+
+    // if(req.body.age >= 18){
+    if(req.query.age >= 18){
+
+      next();
+    }
+    else{
+        res.send('sorry!you are not allowed this type of action......')
+    }
+}
+
+server.use(express.json());
+// server.use(express.urlencoded({extended:true}))
+// server.use(auth);
+
+server.get("/",auth,(req,res)=>{
     res.send("welcome to express server");
 })
 
@@ -22,21 +46,13 @@ server.patch("/",(req,res)=>{
     res.send({type:'patch method'});
 })
 
-server.delete("/",(req,res)=>{
+server.delete("/",auth,(req,res)=>{
     res.send({type:'delete method'});
 })
 
 
 
-// server.get("/friend",(req,res)=>{
-//     console.log("ip address --->",rep.ip);
-//     console.log("base url --->",rep.i);
-//     res.send("<h1>hello</h1>");
-// })
 
-// server.get("/hello",(req,res)=>{
-//     res.send("server is oll");
-// })
 
 server.listen(1122,() =>{
     console.log('server is created.....')
