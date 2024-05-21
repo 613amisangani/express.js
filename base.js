@@ -5,6 +5,8 @@
 const express = require("express")
 const server = express();
 const morgan = require('morgan');
+// const path = require('path');  for static
+// const filepath = path.join(__dirname,'public')  for static
 
 
 // server.use((req,res,next)=>{
@@ -13,11 +15,11 @@ const morgan = require('morgan');
 // })
 
 let auth = (req, res, next)=>{
-    console.log(req.query);
-    //  console.log(req.body)
+    // console.log(req.query);
+     console.log(req.body)
 
-    // if(req.body.age >= 18){
-    if(req.query.age >= 18){
+    if(req.body.age >= 18){
+    // if(req.query.age >= 18){
 
       next();
     }
@@ -25,30 +27,35 @@ let auth = (req, res, next)=>{
         res.send('sorry!you are not allowed this type of action......')
     }
 }
+// server.use(express.static(filepath)); for static
 
-server.use(express.json());
-// server.use(express.urlencoded({extended:true}))
-// server.use(auth);
+// server.use(express.json());  for the json data
+// server.use(express.urlencoded({extended:true})) //for the form data
+// server.use(auth);  for throughout application
+server.use(morgan('short'))
 
-server.get("/",auth,(req,res)=>{
-    res.send("welcome to express server");
-})
+// server.get("/",auth,(req,res)=>{
+//     res.send("index");
+// })
+// server.get("/data",auth,(req,res)=>{
+//     res.send(`${filepath}/data.json`);
+// })
 
-server.post("/",(req,res)=>{
-    res.send({type:'post method'});
-})
+// server.post("/",(req,res)=>{
+//     res.send({type:'post method'});
+// })
 
 server.put("/",(req,res)=>{
     res.send({type:'put method',name:'ami'});
 })
 
-server.patch("/",(req,res)=>{
-    res.send({type:'patch method'});
-})
+// server.patch("/",(req,res)=>{
+//     res.send({type:'patch method'});
+// })
 
-server.delete("/",auth,(req,res)=>{
-    res.send({type:'delete method'});
-})
+// server.delete("/",auth,(req,res)=>{
+//     res.send({type:'delete method'});
+// })
 
 
 
