@@ -5,59 +5,31 @@
 const express = require("express")
 const server = express();
 const morgan = require('morgan');
-// const path = require('path');  for static
-// const filepath = path.join(__dirname,'public')  for static
+const products = require('./public/data.json');
+console.log(products);
 
 
-// server.use((req,res,next)=>{
-//     console.log(req.method, req.get('use-agent'));
-//      next();
-// })
+ server.use(express.json());  //for the json data
+server.use(morgan('dev'))
 
-let auth = (req, res, next)=>{
-    // console.log(req.query);
-     console.log(req.body)
 
-    if(req.body.age >= 18){
-    // if(req.query.age >= 18){
+//crud 
 
-      next();
-    }
-    else{
-        res.send('sorry!you are not allowed this type of action......')
-    }
-}
-// server.use(express.static(filepath)); for static
-
-// server.use(express.json());  for the json data
-// server.use(express.urlencoded({extended:true})) //for the form data
-// server.use(auth);  for throughout application
-server.use(morgan('short'))
-
-// server.get("/",auth,(req,res)=>{
-//     res.send("index");
-// })
-// server.get("/data",auth,(req,res)=>{
-//     res.send(`${filepath}/data.json`);
-// })
-
-// server.post("/",(req,res)=>{
-//     res.send({type:'post method'});
-// })
-
-server.put("/",(req,res)=>{
-    res.send({type:'put method',name:'ami'});
+server.post("/products",(req,res)=>{  //for json data add
+    products.push(req.body)
+    res.status(201).json({message:'new product is addedd.....'})
 })
 
-// server.patch("/",(req,res)=>{
-//     res.send({type:'patch method'});
-// })
+      server.get("/products",(req,res)=>{  //for data read
+        res.status(200).json(products);
+     })
 
-// server.delete("/",auth,(req,res)=>{
-//     res.send({type:'delete method'});
-// })
-
-
+     server.get("/products/:id",(req,res)=>{  //for read specific data
+    // console.log(typeof(id))
+        const id = +req.params.id;
+        const item = products.find((e)=>e.id === id) 
+        res.status(200).json(item);
+     })
 
 
 
