@@ -5,17 +5,25 @@
 const express = require("express")
 const server = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 // const products = require('./public/data.json');
-// const productRoutes = require('./routes/product.routes')
 // console.log(products);
-const UserRoutes = require('./routes/User.routes')
+// const UserRoutes = require('./routes/User.routes')
+
+
+mongoose.connect('mongodb://127.0.0.1:27017/node8to10')
+    .then(() => console.log("DB is connected..."))
+    .catch((error) => console.log(error));
+
 
 
 server.use(express.json());  //for the json data
 server.use(morgan('dev'))
+const productRoutes = require('./routes/product.routes')
 
-// server.use('/api/products',productRoutes);
-server.use('/api/user',UserRoutes);
+
+server.use('/api/products', productRoutes);
+// server.use('/api/user',UserRoutes);
 
 
 

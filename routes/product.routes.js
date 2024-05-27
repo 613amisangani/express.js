@@ -19,21 +19,21 @@ productRoutes.post("/", CreateProduct);
 
 productRoutes.get("/", getAllProduct);
 
-//for read specific data
+// //for read specific data
 
-productRoutes.get("/:id" ,getProduct);
+// productRoutes.get("/:id" ,getProduct);
 
-//for data replace
+// //for data replace
 
-productRoutes.put("/id", replaceProduct);
+// productRoutes.put("/id", replaceProduct);
 
 
-//for data update
+// //for data update
 
-productRoutes.patch("/:id", updateProduct);
+// productRoutes.patch("/:id", updateProduct);
 
-//for data delete
+// //for data delete
 
-productRoutes.delete("/:id", deleteProduct);
+// productRoutes.delete("/:id", deleteProduct);
 
 module.exports = productRoutes;
