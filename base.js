@@ -22,6 +22,7 @@ server.use(morgan('dev'))
 const productRoutes = require('./routes/product.routes')
 
 
+
 server.use('/api/products', productRoutes);
 // server.use('/api/user',UserRoutes);
 

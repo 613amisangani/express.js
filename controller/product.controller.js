@@ -11,36 +11,48 @@ exports.getAllProduct =  async (req, res) => {
     res.status(200).json(products);
 }
 
-// exports.getProduct = (req, res) => {  
-//     // console.log(typeof(id))
-//     const id = +req.params.id;
-//     const item = products.find((e) => e.id === id)
-//     res.status(200).json(item);
-// }
 
-// exports.replaceProduct = (req, res) => {  
-//     // console.log(typeof(id))
-//     const id = +req.params.id;
-//     const itemindex = products.findIndex((e) => e.id === id)
-//     // const product = products[itemindex]
-//     products.splice(itemindex,1,{...req.body})
-//     res.status(200).json({message:'product is replaced....'});
-// }
 
-// exports.updateProduct = (req, res) => {  
-//     // console.log(typeof(id))
-//     const id = +req.params.id;
-//     const itemindex = products.findIndex((e) => e.id === id)
-//      const product = products[itemindex]
-//     products.splice(itemindex,1,{...product,...req.body})
-//     res.status(200).json({message:'product is updated....'});
-// }
 
-// exports.deleteProduct = (req, res) => {  
-//     // console.log(typeof(id))
-//     const id = +req.params.id;
-//     const itemindex = products.findIndex((e) => e.id === id)
-//     //  const product = products[itemindex]
-//     products.splice(itemindex,1)
-//     res.status(200).json({message:'product is deleted....'});
-// }
+exports.getProduct = async (req, res) => {  
+    // console.log(typeof(id))
+    const id = req.params.id;
+    // const id = req.query.id;
+
+     const item =  await Product.findById(id);
+    //  const item =  await Product.findOne({brand: id})
+    if(!item){
+        return res.json({message : "product is not found...."});
+    }
+    res.status(200).json(item);
+}
+
+
+
+exports.updateProduct = async (req, res) => {  
+    // console.log(typeof(id))
+    const id = req.params.id;
+    let product = await Product.findById(id);
+    if(!product){
+        return res.json({message : "product is not found...."});
+    }
+    // product = await product.findOneAndUpdate({_id:id},{$set:{...req.body}}, {new:true})
+     product = await Product.findByIdAndUpdate(id, {$set:{...req.body}}, {new:true})
+
+    console.log(product)
+    res.status(200).json({product,message:'product is updated....'});
+}
+
+exports.deleteProduct = async (req, res) => {  
+    // console.log(typeof(id))
+    const id = req.params.id;
+    let product = await Product.findById(id);
+    if(!product){
+        return res.json({message : "product is not found...."});
+    }
+    // product = await product.findOneAndUpdate({_id:id},{$set:{...req.body}}, {new:true})
+     product = await Product.findByIdAndDelete(id)
+
+    console.log(product)
+    res.status(200).json({message:'product is deleted....'});
+}

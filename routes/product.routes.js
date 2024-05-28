@@ -4,7 +4,6 @@ const {
     CreateProduct,
     getAllProduct,
     getProduct,
-    replaceProduct,
     updateProduct,
     deleteProduct,
 } = require('../controller/product.controller');
@@ -21,19 +20,17 @@ productRoutes.get("/", getAllProduct);
 
 // //for read specific data
 
-// productRoutes.get("/:id" ,getProduct);
+//  productRoutes.get("/single" ,getProduct);
+ productRoutes.get("/:id" ,getProduct);
 
-// //for data replace
-
-// productRoutes.put("/id", replaceProduct);
 
 
 // //for data update
 
-// productRoutes.patch("/:id", updateProduct);
+productRoutes.put("/:id", updateProduct);
 
 // //for data delete
 
-// productRoutes.delete("/:id", deleteProduct);
+ productRoutes.delete("/:id", deleteProduct);
 
 module.exports = productRoutes;
