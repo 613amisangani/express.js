@@ -10,6 +10,9 @@ const productSchema = mongoose.Schema ({
     },
     catrgory : {type:String},
 
+},
+{
+    versionKey : false
 });
 
 module.exports = mongoose.model('products',productSchema);

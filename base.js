@@ -1,17 +1,18 @@
 // npm init -y
 // npm i -D nodemon
 // npm i express
-
+require('dotenv').config();
 const express = require("express")
 const server = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const port = process.env.PORT;
 // const products = require('./public/data.json');
 // console.log(products);
 // const UserRoutes = require('./routes/User.routes')
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/node8to10')
+mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("DB is connected..."))
     .catch((error) => console.log(error));
 
@@ -30,7 +31,7 @@ server.use('/api/products', productRoutes);
 
 
 
-server.listen(1122, () => {
+server.listen(port, () => {
     console.log('server is created.....')
 })
 
