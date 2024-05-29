@@ -22,14 +22,8 @@ server.use(express.json());  //for the json data
 server.use(morgan('dev'))
 const productRoutes = require('./routes/product.routes')
 
-
-
 server.use('/api/products', productRoutes);
 // server.use('/api/user',UserRoutes);
-
-
-
-
 
 server.listen(port, () => {
     console.log('server is created.....')
