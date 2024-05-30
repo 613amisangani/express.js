@@ -2,7 +2,7 @@
 const Product = require('../model/product.model')
 
 exports.CreateProduct = async (req, res) => {  
-    let product = await Product.create({...req.body})
+    let product = await Product.create({...req.body,isDelete:false})
     res.status(201).json({ product,message: 'new product is addedd.....' })
 }
 

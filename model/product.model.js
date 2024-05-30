@@ -9,6 +9,10 @@ const productSchema = mongoose.Schema ({
         enum : ['Apple','vivo','oppo','MI']
     },
     catrgory : {type:String},
+    isDelete:{
+        type:Boolean,
+        default: false,
+    }
 
 },
 {

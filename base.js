@@ -20,10 +20,14 @@ mongoose.connect(process.env.MONGO_URL)
 
 server.use(express.json());  //for the json data
 server.use(morgan('dev'))
-const productRoutes = require('./routes/product.routes')
+const productRoutes = require('./routes/product.routes');
+// const cartRoutes = require('./routes/cart.routes');
+const userRoutes = require('./routes/user.routes');
 
 server.use('/api/products', productRoutes);
-// server.use('/api/user',UserRoutes);
+server.use('/api/users', userRoutes);
+
+//  server.use('/api/user',cartRoutes);
 
 server.listen(port, () => {
     console.log('server is created.....')
