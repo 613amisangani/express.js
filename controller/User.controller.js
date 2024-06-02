@@ -40,3 +40,14 @@ exports.loginUser = async (req,res)=>{
         res.status(501).json({message : "internal server error"});  
     }
 }
+
+exports.getProfile = async (req,res) =>{
+    try {
+        let userProfile = req.user ;
+        res.json(userProfile);
+        
+    } catch (err) {
+        console.log(err);
+        res.status(501).json({message : "internal server error"});  
+    }
+}
