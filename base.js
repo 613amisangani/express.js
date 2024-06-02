@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const port = process.env.PORT;
 // const products = require('./public/data.json');
 // console.log(products);
-// const UserRoutes = require('./routes/User.routes')
+
 
 
 mongoose.connect(process.env.MONGO_URL)
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URL)
 server.use(express.json());  //for the json data
 server.use(morgan('dev'))
 const productRoutes = require('./routes/product.routes');
-// const cartRoutes = require('./routes/cart.routes');
+
 const userRoutes = require('./routes/user.routes');
 
 server.use('/api/products', productRoutes);
