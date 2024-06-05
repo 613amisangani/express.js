@@ -12,6 +12,47 @@ const port = process.env.PORT;
 
 
 
+// const passport = require("passport");
+// const localStrategies = require('./strategies/local-strategies.mjs');
+
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.post('/api/auth',passport.authenticate("local"),(req,res)=>{
+// res.sendStatus(200);
+// })
+
+// 
+// const passport = require('passport');
+// // const localStrategies = require('./strategies/local-strategies.mjs');
+// import('./strategies/local-strategies.mjs');
+
+
+
+
+// server.use(passport.initialize());
+// server.use(passport.session());
+
+
+// server.post('/api/auth', passport.authenticate("local"), (req, res) => {
+
+//     res.sendStatus(200);
+// });
+
+
+// server.use('/api/auth', (err, req, res, next) => {
+//     if (err) {
+       
+//         res.status(401).send("Authentication failed");
+//     } else {
+        
+//         next();
+//     }
+// });
+// }
+
+
+
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("DB is connected..."))
     .catch((error) => console.log(error));
@@ -32,6 +73,10 @@ server.use('/api/users', userRoutes);
 server.listen(port, () => {
     console.log('server is created.....')
 })
+
+
+
+
 
 
 
