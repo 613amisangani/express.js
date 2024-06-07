@@ -102,9 +102,6 @@ exports.changePassword = async (req, res) =>{
 
 
 
-
-
-
 exports.deleteUser = async (req,res) =>{
     try {
 

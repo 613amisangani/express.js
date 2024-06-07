@@ -11,3 +11,38 @@ exports.addNewCart = async (req,res) =>{
       res.json({message : "internal server error"})  
     }
 }
+
+
+
+exports.getAllCarts =  async (req,res) =>{
+  try {
+    let results =  await Cartservice.getAllCarts(req.query ,req.user._id);
+    res.status(201).json(results);
+  } catch (error) {
+    console.log(error);
+    res.json({message : "internal server error"})  
+  }
+}
+
+
+exports.updateUser = async (req,res) =>{
+  try {
+    let results =  await Cartservice.updateUser(req.body,req.user._id);
+    res.status(201).json(results);
+    
+  } catch (error) {
+    console.log(error);
+    res.json({message : "internal server error"})  
+  }
+}
+
+exports.removeCart = async (req,res) =>{
+  try {
+    let results =  await Cartservice.removeCart(req.query,req.user._id);
+    res.status(201).json(results);
+    
+  } catch (error) {
+    console.log(error);
+    res.json({message : "internal server error"})  
+  }
+}
