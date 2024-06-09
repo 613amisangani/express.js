@@ -130,7 +130,7 @@ module.exports = class Cartservices{
 
   async updateUser(body, userId){
     try {
-        let userCarts = await Cart.findOne({user : userId});
+        let userCarts = await Cart.findOneAndUpdate({user : userId});
         // if(!userCarts){
         //     res.json({message : "user carts not found"});
         // }

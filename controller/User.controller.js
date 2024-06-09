@@ -1,118 +1,80 @@
-const User = require('../model/user.model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const User = require('../model/user.model');
+const userServices = require('../services/user.services');
+const userService = new userServices();
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
 
-exports.registerUser = async (req,res) =>{
+
+
+exports.registerUser = async (req, res) => {
     try {
-        const  {firstName , lastName , email , password , mobileNo , profileImage , DOB , gender } = req.body ;
-        let user = await User.findOne({email : email , isDelete : false});
-        if(user){
-            return res.json({message : "you are already registered....."})
-        }
-        let hasPassword = await bcrypt.hash(password ,10)
-        user = await User.create({
-            firstName,lastName,email,mobileNo,password : hasPassword,profileImage,DOB,gender
-        });
-        await user.save();
+        const { firstName, lastName, email, password, mobileNo, profileImage, DOB, gender } = req.body;
+        
+        const user = await userService.registerUser(firstName, lastName, email, password, mobileNo, profileImage, DOB, gender);
+
         res.status(201).json(user);
     } catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+    
 
 
-
-exports.loginUser = async (req,res)=>{
+exports.loginUser = async (req, res) => {
     try {
-        const {email,password} = req.body;
-        let user = await User.findOne({email : email, isDelete:false});
-        if(!user){
-            res.status(404).json({message : "user is not found...."});
-        }
-        let matchedPassword = await bcrypt.compare(password , user.password);
-        if(!matchedPassword){
-            return res.json({message : "password is not matched..."})
-        }
-        let token = jwt.sign({userId : user._id,},process.env.SECRET_KEY);
-        res.json({token,message:"login success...."})
-        
+        const { email, password } = req.body;
+        const login = await userService.loginUser(email, password);
+
+        res.json(login);
     } catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});  
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 
 
 
-exports.getProfile = async (req,res) =>{
+exports.getProfile = async (req, res) => {
     try {
-        let userProfile = req.user ;
+        const userProfile = await userService.getProfile(req.user);
         res.json(userProfile);
-        
     } catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});  
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 
 
-exports.updateProfile = async (req,res) =>{
+exports.updateProfile = async (req, res) => {
     try {
-        let user = req.user;
-        if(req.body.password){
-            req.body.password = await bcrypt.hash( req.body.password ,10)
-        }
-
-        user = await User.findByIdAndUpdate(
-            user._id ,{ $set:{...req.body}}, {new:true}
-        );
-        res.json({user , message:"update user"})
+        const user = await userService.updateProfile(req.user, req.body);
+        res.json({ user, message: "User profile updated" });
     } catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});  
-    }
-}
-
-exports.changePassword = async (req, res) =>{
-    try {
-        const {oldPassword , newPassword , confirmPassword} = req.body;
-        if(oldPassword === newPassword){
-            return res.json({message :"this password is already exist"})
-           
-        }
-        if(newPassword !== confirmPassword)
-            {
-                return res.json({message :"password is mismatched...."})
-            }
-            
-             const password = await User.findByIdAndUpdate(
-               req.user._id ,{ $set:{password:await bcrypt.hash( newPassword,10)}}, {new:true}
-            );
-            // const hasPassword = await bcrypt.hash( newPassword,10)
-            //  hasPassword = confirmPassword;
-
-            res.json({password, message:"change password"})
-        
-    }  catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});  
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 
 
-
-exports.deleteUser = async (req,res) =>{
+exports.changePassword = async (req, res) => {
     try {
-
-        let user = req.user;
-        user = await User.findByIdAndUpdate(
-            user._id ,{ $set:{isDelete : true}}, {new:true}
-        )
-        res.json({message : "delete user"})
-        
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+        const result = await userService.changePassword(req.user, oldPassword, newPassword, confirmPassword);
+        res.json(result);
     } catch (err) {
-        console.log(err);
-        res.status(501).json({message : "internal server error"});  
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const result = await userService.deleteUser(req.user);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
     }
 }

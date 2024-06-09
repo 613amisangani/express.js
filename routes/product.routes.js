@@ -20,14 +20,16 @@ productRoutes.get("/", getAllProduct);
 
 // //for read specific data
 
-//  productRoutes.get("/single" ,getProduct);
- productRoutes.get("/:id" ,getProduct);
+ productRoutes.get("/single" ,getProduct);
+//  productRoutes.get("/:id" ,getProduct);
 
 
 
 // //for data update
 
 productRoutes.put("/:id", updateProduct);
+// productRoutes.put("/", updateProduct);
+
 
 // //for data delete
 
