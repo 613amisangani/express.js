@@ -65,10 +65,15 @@ const productRoutes = require('./routes/product.routes');
 
 const userRoutes = require('./routes/user.routes');
 const cartRoutes = require('./routes/cart.routes');
+const orderRoutes = require('./routes/order.routes');
 
 server.use('/api/products', productRoutes);
 server.use('/api/users', userRoutes);
 server.use('/api/cart', cartRoutes);
+server.use('/api/orders', orderRoutes);
+
+
+
 
 
 //  server.use('/api/user',cartRoutes);

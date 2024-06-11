@@ -8,7 +8,7 @@ module.exports = class Cartservices{
     // add product
     async addNewCart(body ,userId){
         try {
-            let userCarts = await Cart.findOne({user : userId});
+            let userCarts = await Cart.findOne({user : userId,isDelete:false});
             if(!userCarts){
                 return await Cart.create({
                     user : userId,
@@ -128,33 +128,55 @@ module.exports = class Cartservices{
 
  // update user
 
-  async updateUser(body, userId){
-    try {
-        let userCarts = await Cart.findOneAndUpdate({user : userId});
-        // if(!userCarts){
-        //     res.json({message : "user carts not found"});
-        // }
-        let findproductIndex = userCarts.products.findIndex(
-            (item) => String(item.productId) === body.productId
-        );
-        if(findproductIndex !== -1){
-            userCarts.products[findproductIndex].quantity = body.quantity || 1;
-        }
-        else{
-            userCarts.products.push({
-                productId : body.productId,
-                quantity : body.quantity || 1
+//   async updateUser(body, userId){
+//     try {
+//         let userCarts = await Cart.findOneAndUpdate({user : userId});
+//         // if(!userCarts){
+//         //     res.json({message : "user carts not found"});
+//         // }
+//         let findproductIndex = userCarts.products.findIndex(
+//             (item) => String(item.productId) === body.productId
+//         );
+//         if(findproductIndex !== -1){
+//             userCarts.products[findproductIndex].quantity = body.quantity || 1;
+//         }
+//         else{
+//             userCarts.products.push({
+//                 productId : body.productId,
+//                 quantity : body.quantity || 1
 
-            });
-        }
-        return await userCarts.save();
+//             });
+//         }
+//         return await userCarts.save();
+        
+//     }  catch (err) {
+//         console.log(err);
+//         return err.message ; 
+//     }
+   
+// }
+
+async updateUser(body,userID){
+    try {
+        let updateUser = await Cart.findOneAndUpdate(
+            {
+                user :userID,
+                isDelete : false
+            },
+            {
+                $set:body
+            },
+            {
+                new : true
+            }
+        )
+        return updateUser;
         
     }  catch (err) {
         console.log(err);
         return err.message ; 
     }
-   
-}
+ }
 
 
  async removeCart(query,userID){
