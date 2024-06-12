@@ -7,11 +7,11 @@ const Cartservice = new Cartservices();
 exports.createNewOrder = async (req,res)=>{
     try {
         let userCarts = await Cartservice.getAllCarts(req.query,req.user._id);
-        if(userCarts.length === 0){
+        if(userCarts.carts.length === 0){
             return res.json({message:'user have no cart item'});
         }
 
-        let orderItems = userCarts.map((item)=>({
+        let orderItems = userCarts.carts.map((item)=>({
             quantity : item.products.quantity,
             price: item.products.productId.price,
             productId : item.products.productId._id,
@@ -45,6 +45,18 @@ exports.getAllOrder =  async (req,res) =>{
       if(!results || results.length === 0 )
         return res.json({message:"user have empty carts"})
       res.status(201).json(results);
+    } catch (error) {
+      console.log(error);
+      res.json({message : "internal server error"})  
+    }
+  }
+
+
+  exports.removeOrder = async (req,res) =>{
+    try {
+      let results =  await OrderService.removeOrder(req.query,req.user._id);
+      res.status(201).json(results);
+      
     } catch (error) {
       console.log(error);
       res.json({message : "internal server error"})  

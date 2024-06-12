@@ -1,5 +1,6 @@
 const Order = require('../model/order.model')
 const Cart = require('../model/card.model')
+const { default: mongoose } = require("mongoose");
 
 module.exports = class OrderServices{
 
@@ -8,7 +9,8 @@ try {
     return await Order.create({
         user : userID,
         products : body.products,
-        totalAmount : body.totalAmount
+        totalAmount : body.totalAmount,
+        isDelete : false
     })
     
 } catch (err) {
@@ -94,6 +96,37 @@ try {
           return err;
         }
       }
+
+
+      async removeOrder(query, userID) {
+        try {
+          let removeOrder = await Order.findOneAndUpdate(
+            {
+              user: userID,
+            },
+            {
+              $pull: {
+                products: {
+                  productId: new mongoose.Types.ObjectId(query.productId),
+                },
+              },
+            },
+            {
+$set:{
+  isDelete : true
+}
+            },
+            {
+              new: true,
+            },
+          );
+          return removeOrder;
+        } catch (err) {
+          console.log(err);
+          return err.message;
+        }
+      }
+    
 
 
 

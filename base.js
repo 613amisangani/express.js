@@ -61,8 +61,8 @@ mongoose.connect(process.env.MONGO_URL)
 
 server.use(express.json());  //for the json data
 server.use(morgan('dev'))
-const productRoutes = require('./routes/product.routes');
 
+const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes');
 const cartRoutes = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes');

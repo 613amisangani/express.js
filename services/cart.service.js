@@ -117,7 +117,15 @@ module.exports = class Cartservices{
             ];
 
             let carts = await Cart.aggregate(pipeline);
-            return carts;
+            let totalAmount = carts
+            .map((item)=>({
+                quantity: item.products.quantity,
+                price: item.products.productId.price,
+            }))
+            .reduce((total,item) =>(total += item.quantity * item.price),0);
+            let discountAmount = (totalAmount * 0.20);
+            totalAmount = totalAmount - (totalAmount * 0.20);
+            return{carts,discount: discountAmount,totalAmount};
             
         } catch (err) {
             console.log(err);
@@ -186,13 +194,7 @@ async updateUser(body,userID){
                 user :userID
             },
             {
-                $pull:
-                {
-                    products:{
-                        productId : new mongoose.Types.ObjectId(query.productId)
-                    }
-
-                }
+                isDelete : true
             },
             {
                 new : true
