@@ -7,6 +7,8 @@ const server = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const port = process.env.PORT;
+const path = require('path');
+const filePath = path.join(__dirname,'public/images')
 // const products = require('./public/data.json');
 // console.log(products);
 
@@ -67,6 +69,7 @@ const userRoutes = require('./routes/user.routes');
 const cartRoutes = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes');
 
+server.use('/public/images',express.static(filePath));
 server.use('/api/products', productRoutes);
 server.use('/api/users', userRoutes);
 server.use('/api/cart', cartRoutes);

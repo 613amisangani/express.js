@@ -103,19 +103,12 @@ try {
           let removeOrder = await Order.findOneAndUpdate(
             {
               user: userID,
+              isDelete:false,
             },
             {
-              $pull: {
-                products: {
-                  productId: new mongoose.Types.ObjectId(query.productId),
-                },
-              },
+              isDelete : true
             },
-            {
-$set:{
-  isDelete : true
-}
-            },
+           
             {
               new: true,
             },
