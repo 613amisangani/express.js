@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <h1>hello</h1>
+    <h2>student name : <%= name %></h2>
+    <p>std : <%= std %></p>
+    <p>result : <%= result %></p>
+    <ul>
+        <li>maths marks : <%= subject.maths %></li>
+        <li>science marks : <%= subject.sci %></li>
+        <li>english marks : <%= subject.eng %></li>
+    </ul>
+    <h4>hobbies : </h4>
+    <% for(let i = 0 ; i<hobbies.length; i++) { %>
+        <a> <%= hobbies[i] %></a>
+
+    <% } %>
+    
+</body>
+</html>
